@@ -1,4 +1,5 @@
 from math import sqrt
+import math
 class Vector(object):
     def __init__(self, coordinates):
         try:
@@ -63,8 +64,39 @@ class Vector(object):
         except ZeroDivisionError
             raise Exception('Cannot normalize the zero vector')
     """
+# point product solution as same as Udacity Excellent!
+    def inter_product(self, v):
+        new_coordinates = [ x * y for x, y in zip(self.coordinates, v.coordinates)]
+        return sum(new_coordinates)
 
+    def angle(self, v):
+        theta = self.inter_product(v) / self.magn() / v.magn()
+        if theta >= 0:
+            angle = math.acos(theta)
+        else:
+            angle = math.pi - math.acos(-theta)
+        degree = math.degrees(angle)
+        return angle,degree
+# Udacity solution as below for angle
+""""
+    def angle_with(self,v,in_degrees=False):
+        try:
+            u1 = self.normalized()
+            u2 = v.normalized()
+            angle_in_radians = acos(u1.dot(u2))
 
+            if in_degrees:
+                degress_per_radian = 180./ pi
+                return  angle_in_radians * degress_per_radian
+            else:
+                return angle_in_radians
+        except Exception as e:
+            if str(e) == self.CANNOT_NORMALIZE_ZERO_VECTOR_MSG:
+                raise  Exception('Cannot co,pute an angle with the zero vector')
+            else:
+                raise e
+
+"""""
 """""
 
 my_vector = Vector([1,2,3])
@@ -95,8 +127,10 @@ print(v.magn())
 print(w.magn())
 """
 
-v = Vector([5.581, -2.136])
-w = Vector([1.996, 3.108, -4.554])
-print(v.dirc())
-print(w.dirc())
+v = Vector([7.35, 0.221, 5.188])
+w = Vector([2.751, 8.259, 3.985])
+print(v.angle(w))
+print(v.inter_product(w))
+
+
 
